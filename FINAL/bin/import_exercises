@@ -1,0 +1,44 @@
+#!/usr/bin/env php
+<?php
+    // requirements
+    require(__DIR__ . "/../includes/config.php");
+    // ensure proper usage
+    if ($argc !== 2)
+    {
+        print("Usage: import_exercises /path/to/txt\n");
+        exit(1);
+    }
+    // ensure that the import file exists
+    if (!file_exists($argv[1]))
+    {
+        print("File does not exist: {$argv[1]}\n");
+        exit(1);
+    }
+    // ensure that the import file is readable
+    if (!is_readable($argv[1]))
+    {
+        print("File is not readable: {$argv[1]}\n");
+        exit(1);
+    }
+    // open the import file
+    $handle = fopen($argv[1], "r");
+    if ($handle === false)
+    {
+        print("Could not open file: {$argv[1]}\n");
+        exit(1);
+    }
+    // iterate over file's rows
+    while ($row = fgetcsv($handle, 0, "\t"))
+    {
+        // insert exercise info into database
+        if (CS50::query("INSERT INTO exercises (activity, calorie) VALUES(?, ?)",
+            $row[0], $row[1]) === false)
+        {
+            printf("Could not insert into database.\n");
+        }
+    }
+    fclose($handle);
+    // success
+    printf("Successfully inserted.\n");
+    exit(0);
+?>
