@@ -10,3 +10,4 @@ server: server.c Makefile
 
 clean:
 	rm -f *.o core server
+	
