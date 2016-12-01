@@ -1,0 +1,47 @@
+0.  What is pneumonoultramicroscopicsilicovolcanoconiosis?
+    pneumonoultramicroscopicsilicovolcanoconiosis is the longest language in the English language published in a library, the Oxford English Dictionary. It
+    refers to a lung disease that is otherwise known as silicosis.
+    
+1.  According to its man page, what does getrusage do?
+    Returns resource usage mesasures for a process/es, like user/system CPU time and resources used.
+    
+2.  Per that same man page, how many members are in a variable of type struct rusage?
+    16 members in a structure, ranging from user CPU time used to integral shared memory size.
+    
+3.  Why do you think we pass before and after by reference (instead of by value) to calculate, even though we’re not changing their contents?
+    If we pass by value, whole two structures will be copied into "calculate" - inefficient usage of time and resources/memories.
+    
+4.  Explain as precisely as possible, in a paragraph or more, how main goes about reading words from a file. In other words, convince us that you indeed 
+    understand how that function’s for loop works.
+    After loading a textfile and a dictionary, main() function reads a text symbol-by-symbol, with a goal of constructing separate words. A word is completed
+    when one or more alphabetic symbols are read, and we encountered a non-alphanumeric character (like space or newline). Then we check the word for any
+    mispelling, reset the word index to zero, and continue the symbol reading loop. If we encounter a digit, or if a string is too long (more than 45 words), we
+    traverse this word in the text, but not check for mispelling.
+    
+5.  Why do you think we used fgetc to read each word’s characters one at a time rather than use fscanf with a format string like "%s" to read whole words at 
+    a time? Put another way, what problems might arise by relying on fscanf alone?
+    There are several problems with fscanf - first, allocate a memory for a string before reading it from file, and there are no limits of a length of a word
+    in a text file. Also one can't write a program logic to skip alphanumeric words, like this implementation of speller has. Overall, the approach gives less
+    flexibility.
+    
+6.  Why do you think we declared the parameters for check and load as const?
+    The parameters aren't intended to be modified in the functions, so another layer of ensuring this behavior is written.
+    
+7.  What data structure(s) did you use to implement your spell-checker? Be sure not to leave your answer at just "hash table," "trie," or the like. Expound on 
+    what’s inside each of your "nodes."
+    I implemented a hash-table structure using singly linked lists. As long as the constraints are not met, such as 45 word limit (with unsigned arithmetic 
+    ensuring that the hash value is non-negative), and with hash table size of 286199, it traverses through looking if the value we are looking for is in a node. 
+    If the lookup finds the entry already present in the node, it returns a pointer to it, if not, it returns NULL Once the pointer is set, it puts a new node 
+    containing the pointer at the front of the list (as long as it's not NULL, which signifies it's the end) and goes on.
+
+    
+8.  How slow was your code the first time you got it working correctly?
+    It was exponentially slower compared to the staff's.
+    
+9.  What kinds of changes, if any, did you make to your code in order to improve its performance?
+    I at first tried to create a file with minimum number of header files. After thinking for a while, I just separated out major steps into different header 
+    files. I then deleted some lines that weren't necessary (had them as texts for when I was debugging).
+
+10. Do you feel that your code has any bottlenecks that you were not able to chip away at?
+    Even after combining different header files, there's some inefficient lines of codes here and there.
+
